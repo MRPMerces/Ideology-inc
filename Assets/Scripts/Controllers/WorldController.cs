@@ -5,71 +5,87 @@ using UnityEngine.SceneManagement;
 
 public class WorldController : MonoBehaviour {
 
+    public static WorldController worldController { get; protected set; }
+
+    // The world and tile data
     World world;
 
-    static bool loadWorldbool = false;
+    static bool loadWorld = false;
 
-    // Start is called before the first frame update
+    // Use this for initialization
     void OnEnable() {
 
-        if (loadWorldbool) {
-            loadWorldbool = false;
-            createWorldFromSaveFile();
+        worldController = this;
+
+        if (loadWorld) {
+            loadWorld = false;
+            CreateWorldFromSaveFile();
         }
 
         else {
-            createEmptyWorld();
+            CreateEmptyWorld();
         }
-
-        Debug.Log(world.tilesWithCity.Count + " Cities");
     }
 
-    void createEmptyWorld() {
-        world = new World(25, 25);
+    void Update() {
+        // TODO: Add pause/unpause, speed controls, etc...
+        world.Update(Time.deltaTime);
 
-        // Center the camera.
-        Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
     }
 
-    #region Saving and loading
+    public void NewWorld() {
+        Debug.Log("NewWorld button was clicked.");
 
-    public void newWorld() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        createEmptyWorld();
     }
 
-    public void saveWorld() {
+    public void SaveWorld() {
+        Debug.Log("SaveWorld button was clicked.");
+
         XmlSerializer serializer = new XmlSerializer(typeof(World));
         TextWriter writer = new StringWriter();
-
         serializer.Serialize(writer, world);
         writer.Close();
 
         Debug.Log(writer.ToString());
 
         PlayerPrefs.SetString("SaveGame00", writer.ToString());
+
     }
 
-    public void loadWorld() {
+    public void LoadWorld() {
+        Debug.Log("LoadWorld button was clicked.");
 
-        // Reload the scene to reset all the data.
+        // Reload the scene to reset all data (and purge old references)
+        loadWorld = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        loadWorldbool = true;
     }
 
-    void createWorldFromSaveFile() {
+    void CreateEmptyWorld() {
+        // Create a world with Empty tiles
+        world = new World(100, 100);
+
+        // Center the Camera
+        Camera.main.transform.position = new Vector3(world.width / 2, world.height / 2, Camera.main.transform.position.z);
+
+    }
+
+    void CreateWorldFromSaveFile() {
+        Debug.Log("CreateWorldFromSaveFile");
+        // Create a world from our save file data.
 
         XmlSerializer serializer = new XmlSerializer(typeof(World));
         TextReader reader = new StringReader(PlayerPrefs.GetString("SaveGame00"));
-
+        Debug.Log(reader.ToString());
         world = (World)serializer.Deserialize(reader);
         reader.Close();
 
 
-        // Center the camera.
-        Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
+
+        // Center the Camera
+        Camera.main.transform.position = new Vector3(world.width / 2, world.height / 2, Camera.main.transform.position.z);
+
     }
 
-    #endregion Saving and loading
 }

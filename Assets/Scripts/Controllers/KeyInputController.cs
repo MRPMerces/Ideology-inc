@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class KeyInputController : MonoBehaviour {
 
     public GameObject mainMenu;
+
     // Start is called before the first frame update
     void Start() {
 
@@ -14,6 +17,7 @@ public class KeyInputController : MonoBehaviour {
             if (mainMenu.activeSelf) {
                 mainMenu.SetActive(false);
             }
+
             else {
                 mainMenu.SetActive(true);
             }

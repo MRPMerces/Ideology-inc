@@ -1,65 +1,47 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class TileSpriteController : MonoBehaviour {
 
-    public static TileSpriteController tileSpriteController { get; protected set; }
-
-    public Sprite citySprite;
-    public Sprite emptySprite;
+    // The only tile sprite we have right now, so this
+    // it a pretty simple way to handle it.
+    public Sprite floorSprite;  // FIXME!
+    public Sprite emptySprite;  // FIXME!
 
     Dictionary<Tile, GameObject> tileGameObjectMap;
 
-    // Start is called before the first frame update
+    // Use this for initialization
     void Start() {
         // Instantiate our dictionary that tracks which GameObject is rendering which Tile data.
         tileGameObjectMap = new Dictionary<Tile, GameObject>();
 
-        tileSpriteController = this;
-
+        // Create a GameObject for each of our tiles, so they show visually. (and redunt reduntantly)
         foreach (Tile tile in World.world.tiles) {
+
             // This creates a new GameObject and adds it to our scene.
-            GameObject gameObjectTile = new GameObject("Tile_" + tile.X + "_" + tile.Y);
+            GameObject gameObject = new GameObject("Tile_" + tile.x + "_" + tile.y);
 
-            gameObjectTile.transform.position = new Vector3(tile.X, tile.Y, 0);
-
-            gameObjectTile.transform.SetParent(this.transform, true);
+            gameObject.transform.position = new Vector3(tile.x, tile.y, 0);
+            gameObject.transform.SetParent(transform, true);
 
             // Add a Sprite Renderer
             // Add a default sprite for empty tiles.
-            gameObjectTile.AddComponent<SpriteRenderer>().sortingLayerName = "Tiles";
+            SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+            spriteRenderer.sprite = emptySprite;
+            spriteRenderer.sortingLayerName = "Tiles";
 
             // Add our tile/GO pair to the dictionary.
-            tileGameObjectMap.Add(tile, gameObjectTile);
+            tileGameObjectMap.Add(tile, gameObject);
+
             OnTileChanged(tile);
         }
 
-        // Register our callback so that our GameObject gets updated whenever a tile's type changes.
+        // Register our callback so that our GameObject gets updated whenever
+        // the tile's type changes.
         World.world.RegisterTileChanged(OnTileChanged);
     }
 
-    void DestroyAllTileGameObjects() {
-        // This function might get called when we are changing floors/levels.
-        // We need to destroy all visual **GameObjects** -- but not the actual tile data!
-
-        while (tileGameObjectMap.Count > 0) {
-            Tile tile = tileGameObjectMap.Keys.First();
-
-            // Remove the pair from the map
-            tileGameObjectMap.Remove(tile);
-
-            // Unregister the callback!
-            tile.UnregisterTileTypeChangedCallback(OnTileChanged);
-
-            // Destroy the visual GameObject
-            Destroy(tileGameObjectMap[tile]);
-        }
-
-        // Presumably, after this function gets called, we'd be calling another
-        // function to build all the GameObjects for the tiles on the new floor/level
-    }
-
+    // This function should be called automatically whenever a tile's data gets changed.
     void OnTileChanged(Tile tile) {
 
         if (tileGameObjectMap.ContainsKey(tile) == false) {
@@ -74,18 +56,18 @@ public class TileSpriteController : MonoBehaviour {
             return;
         }
 
-        switch (tile.type) {
-            case TileType.City:
-                gameObject.GetComponent<SpriteRenderer>().sprite = citySprite;
-                break;
-
+        switch (tile.Type) {
             case TileType.Empty:
                 gameObject.GetComponent<SpriteRenderer>().sprite = emptySprite;
                 break;
 
+            case TileType.Floor:
+                gameObject.GetComponent<SpriteRenderer>().sprite = floorSprite;
+                break;
+
             default:
-                Debug.LogError("Unrecognized tile type.");
-                return;
+                Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
+                break;
         }
     }
 }
