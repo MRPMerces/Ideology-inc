@@ -249,4 +249,8 @@ public class Tile : IXmlSerializable {
     public Tile West() {
         return World.world.GetTileAt(x - 1, y);
     }
+
+    public Vector3 toVector3() {
+        return new Vector3(x, y, 0);
+    }
 }

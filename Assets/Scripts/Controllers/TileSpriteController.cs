@@ -26,7 +26,7 @@ public class TileSpriteController : MonoBehaviour {
             // This creates a new GameObject and adds it to our scene.
             GameObject gameObject = new GameObject("Tile_" + tile.x + "_" + tile.y);
 
-            gameObject.transform.position = new Vector3(tile.x, tile.y, 0);
+            gameObject.transform.position = tile.toVector3();
             gameObject.transform.SetParent(transform, true);
 
             // Add a Sprite Renderer

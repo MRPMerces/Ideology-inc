@@ -59,7 +59,7 @@ public class MouseController : MonoBehaviour {
                 }
 
                 // show the generic dragging visuals
-                addPreview(GetMouseOverTile());
+                addPreview(World.world.GetTileAt(currFramePosition));
 
                 break;
 
@@ -189,7 +189,13 @@ public class MouseController : MonoBehaviour {
     }
 
     void addPreview(Tile tile) {
-        GameObject gameObject = SimplePool.Spawn(dragObject, new Vector3(tile.x, tile.y, 0), Quaternion.identity);
+        GameObject gameObject = SimplePool.Spawn(dragObject, tile.toVector3(), Quaternion.identity);
+        gameObject.transform.SetParent(transform, true);
+        dragPreviewGameObjects.Add(gameObject);
+    }
+
+    void addPreview(Vector3 vector3) {
+        GameObject gameObject = SimplePool.Spawn(dragObject, vector3, Quaternion.identity);
         gameObject.transform.SetParent(transform, true);
         dragPreviewGameObjects.Add(gameObject);
     }

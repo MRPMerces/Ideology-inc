@@ -190,9 +190,9 @@ public class World : IXmlSerializable {
     /// Gets the tile at the unity-space coordinates
     /// </summary>
     /// <returns>The tile at world coordinate.</returns>
-    /// <param name="coord">Unity World-Space coordinates.</param>
-    public Tile GetTileAt(Vector3 coord) {
-        return GetTileAt(Mathf.FloorToInt(coord.x + 0.5f), Mathf.FloorToInt(coord.y + 0.5f));
+    /// <param name="vector3">Unity World-Space coordinates.</param>
+    public Tile GetTileAt(Vector3 vector3) {
+        return GetTileAt(Mathf.FloorToInt(vector3.x + 0.5f), Mathf.FloorToInt(vector3.y + 0.5f));
     }
 
     public Furniture PlaceFurniture(string objectType, Tile tile) {
