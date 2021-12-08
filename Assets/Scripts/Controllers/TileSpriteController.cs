@@ -3,15 +3,20 @@ using UnityEngine;
 
 public class TileSpriteController : MonoBehaviour {
 
-    // The only tile sprite we have right now, so this
-    // it a pretty simple way to handle it.
+    public static TileSpriteController tileSpriteController { get; protected set; }
+    // The only tile sprite we have right now, so this it a pretty simple way to handle it.
     public Sprite floorSprite;  // FIXME!
     public Sprite emptySprite;  // FIXME!
+
+    // Default sprite for everything.
+    public Sprite errorSprite;
 
     Dictionary<Tile, GameObject> tileGameObjectMap;
 
     // Use this for initialization
     void Start() {
+        tileSpriteController = this;
+
         // Instantiate our dictionary that tracks which GameObject is rendering which Tile data.
         tileGameObjectMap = new Dictionary<Tile, GameObject>();
 

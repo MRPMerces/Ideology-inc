@@ -45,6 +45,28 @@
 		
     </Furniture>
 
+	<Furniture objectType="Table">
+		<Name>Table</Name>
+		<MovementCost>1</MovementCost>
+		<Width>1</Width>
+		<Height>1</Height>
+		<LinksToNeighbours>false</LinksToNeighbours>
+		<EnclosesRooms>false</EnclosesRooms>
+
+		<BuildingJob jobTime="1">
+			<Inventory objectType="Steel Plate" amount="0" />
+		</BuildingJob>
+
+		<DeconstructJob>
+			<Inventory objectType="Steel Plate" amount="1" />
+		</DeconstructJob>
+
+		<IsEnterable>
+			// LUA Code?
+		</IsEnterable>
+
+	</Furniture>
+
 	<Furniture objectType="Stockpile">
 		<Name>Stockpile</Name>
 	</Furniture>

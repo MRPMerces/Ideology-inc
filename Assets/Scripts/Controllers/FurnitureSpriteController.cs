@@ -148,7 +148,7 @@ public class FurnitureSpriteController : MonoBehaviour {
 
         if (furnitureSprites.ContainsKey(spriteName) == false) {
             Debug.LogError("GetSpriteForInstalledObject -- No sprites with name: " + spriteName);
-            return null;
+            return TileSpriteController.tileSpriteController.errorSprite;
         }
 
         return furnitureSprites[spriteName];
@@ -164,6 +164,6 @@ public class FurnitureSpriteController : MonoBehaviour {
         }
 
         Debug.LogError("GetSpriteForFurniture -- No sprites with name: " + objectType);
-        return null;
+        return TileSpriteController.tileSpriteController.errorSprite;
     }
 }
