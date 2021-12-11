@@ -121,7 +121,12 @@ public class FurnitureSpriteController : MonoBehaviour {
                 }
             }
 
-            return furnitureSprites[spriteName];
+            if (furnitureSprites.ContainsKey(spriteName)) {
+                return furnitureSprites[spriteName];
+            }
+            else {
+                return TileSpriteController.tileSpriteController.errorSprite;
+            }
         }
 
         // Otherwise, the sprite name is more complicated.
@@ -151,7 +156,12 @@ public class FurnitureSpriteController : MonoBehaviour {
             return TileSpriteController.tileSpriteController.errorSprite;
         }
 
-        return furnitureSprites[spriteName];
+        if (furnitureSprites.ContainsKey(spriteName)) {
+            return furnitureSprites[spriteName];
+        }
+        else {
+            return TileSpriteController.tileSpriteController.errorSprite;
+        }
     }
 
     public Sprite GetSpriteForFurniture(string objectType) {

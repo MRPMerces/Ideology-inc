@@ -141,12 +141,13 @@ public class MouseController : MonoBehaviour {
             end_y = start_y;
             start_y = tmp;
         }
-
+        List<Tile> tiles = new List<Tile>();
         // Display a preview of the drag area
         for (int x = start_x; x <= end_x; x++) {
             for (int y = start_y; y <= end_y; y++) {
                 Tile tile = World.world.GetTileAt(x, y);
                 if (tile != null) {
+                    tiles.Add(tile);
                     // Display the building hint on top of this tile position
 
                     if (buildModeController.buildMode == BuildMode.FURNITURE) {
@@ -162,22 +163,15 @@ public class MouseController : MonoBehaviour {
         }
 
         // End Drag
-        if (isDragging && Input.GetMouseButtonUp(0)) {
+        if (isDragging && Input.GetMouseButtonUp(0) && tiles.Count > 0) {
             isDragging = false;
-
-            List<Tile> tiles = new List<Tile>();
-
-            // Loop through all the tiles
-            for (int x = start_x; x <= end_x; x++) {
-                for (int y = start_y; y <= end_y; y++) {
-                    Tile tile = World.world.GetTileAt(x, y);
-
-                    if (tile != null) {
-                        tiles.Add(tile);
-                    }
-                }
-            }
             buildModeController.DoBuild(tiles);
+
+            currentMode = MouseMode.NONE;
+            cleanUpPreviews();
+
+            // Disable tile borders.
+            TileSpriteController.tileSpriteController.enableBorder(false);
         }
     }
 
@@ -237,10 +231,14 @@ public class MouseController : MonoBehaviour {
     }
 
     public void StartBuildMode() {
+        // Activate the tile borders.
+        TileSpriteController.tileSpriteController.enableBorder();
         currentMode = MouseMode.BUILD;
     }
 
     public void StartSelectMode() {
+        // Activate the tile borders.
+        TileSpriteController.tileSpriteController.enableBorder();
         currentMode = MouseMode.SELECT;
     }
 }

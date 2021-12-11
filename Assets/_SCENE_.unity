@@ -2011,7 +2011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 186.92004, y: 13.764637}
+  m_AnchoredPosition: {x: 186.92004, y: 13.764648}
   m_SizeDelta: {x: -307.29, y: 62.34447}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &277951349
@@ -3984,9 +3984,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0939eabed81751341bddfdc768b185ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorSprite: {fileID: 21300000, guid: 2dc0e9faf3ec7014eb5f1085d7fc391e, type: 3}
-  emptySprite: {fileID: 21300000, guid: c98c268079fd0c8488502ff21b9c817d, type: 3}
+  concrete_foundation: {fileID: 21300000, guid: 1b213a103bc366548ba821f943ab3955,
+    type: 3}
+  grass: {fileID: 21300000, guid: acfb246bd753b8944a79885911104ea1, type: 3}
   errorSprite: {fileID: 21300000, guid: d6d6793c88b543142acf1075c23e741d, type: 3}
+  tileBorder: {fileID: 21300000, guid: cbb2e8d481f73514eab65bc22365a8a3, type: 3}
 --- !u!1 &735660811
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,6 +44,9 @@ TagManager:
   - name: Tiles
     uniqueID: 2329541923
     locked: 0
+  - name: Border
+    uniqueID: 3323641809
+    locked: 0
   - name: Furniture
     uniqueID: 1892590203
     locked: 0

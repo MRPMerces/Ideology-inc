@@ -5,38 +5,53 @@ public class TileSpriteController : MonoBehaviour {
 
     public static TileSpriteController tileSpriteController { get; protected set; }
     // The only tile sprite we have right now, so this it a pretty simple way to handle it.
-    public Sprite floorSprite;  // FIXME!
-    public Sprite emptySprite;  // FIXME!
+    public Sprite concrete_foundation;  // FIXME!
+    public Sprite grass;  // FIXME!
 
     // Default sprite for everything.
     public Sprite errorSprite;
+    public Sprite tileBorder;  // FIXME!
 
     Dictionary<Tile, GameObject> tileGameObjectMap;
+    Dictionary<Tile, GameObject> tileBorderOverlays;
 
+    bool bordersEnabled = false;
     // Use this for initialization
     void Start() {
         tileSpriteController = this;
 
         // Instantiate our dictionary that tracks which GameObject is rendering which Tile data.
         tileGameObjectMap = new Dictionary<Tile, GameObject>();
+        tileBorderOverlays = new Dictionary<Tile, GameObject>();
 
         // Create a GameObject for each of our tiles, so they show visually. (and redunt reduntantly)
         foreach (Tile tile in World.world.tiles) {
 
             // This creates a new GameObject and adds it to our scene.
-            GameObject gameObject = new GameObject("Tile_" + tile.x + "_" + tile.y);
+            GameObject gameObjectTile = new GameObject("Tile_" + tile.x + "_" + tile.y);
+            GameObject gameObjectBorder = new GameObject("Tile_" + tile.x + "_" + tile.y + "Border");
 
-            gameObject.transform.position = tile.toVector3();
-            gameObject.transform.SetParent(transform, true);
+            gameObjectTile.transform.position = tile.toVector3();
+            gameObjectBorder.transform.position = tile.toVector3();
+
+            gameObjectTile.transform.SetParent(transform, true);
+            gameObjectBorder.transform.SetParent(transform, true);
 
             // Add a Sprite Renderer
             // Add a default sprite for empty tiles.
-            SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = emptySprite;
+            gameObjectBorder.AddComponent<SpriteRenderer>().sortingLayerName = "Border";
+            gameObjectBorder.GetComponent<SpriteRenderer>().sprite = tileBorder;
+            gameObjectBorder.SetActive(false);
+
+            // Add a Sprite Renderer
+            // Add a default sprite for empty tiles.
+            SpriteRenderer spriteRenderer = gameObjectTile.AddComponent<SpriteRenderer>();
+            spriteRenderer.sprite = grass;
             spriteRenderer.sortingLayerName = "Tiles";
 
             // Add our tile/GO pair to the dictionary.
-            tileGameObjectMap.Add(tile, gameObject);
+            tileGameObjectMap.Add(tile, gameObjectTile);
+            tileBorderOverlays.Add(tile, gameObjectBorder);
 
             OnTileChanged(tile);
         }
@@ -63,16 +78,25 @@ public class TileSpriteController : MonoBehaviour {
 
         switch (tile.Type) {
             case TileType.Empty:
-                gameObject.GetComponent<SpriteRenderer>().sprite = emptySprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = grass;
                 break;
 
             case TileType.Floor:
-                gameObject.GetComponent<SpriteRenderer>().sprite = floorSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = concrete_foundation;
                 break;
 
             default:
                 Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
                 break;
+        }
+    }
+
+    public void enableBorder(bool enable = true) {
+        if (bordersEnabled != enable) {
+            bordersEnabled = enable;
+            foreach (GameObject gameObject in tileBorderOverlays.Values) {
+                gameObject.SetActive(enable);
+            }
         }
     }
 }

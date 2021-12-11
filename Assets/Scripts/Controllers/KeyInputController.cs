@@ -22,5 +22,13 @@ public class KeyInputController : MonoBehaviour {
                 mainMenu.SetActive(true);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.F1)) {
+            TileSpriteController.tileSpriteController.enableBorder(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F7)) {
+            TileSpriteController.tileSpriteController.enableBorder(true);
+        }
     }
 }
