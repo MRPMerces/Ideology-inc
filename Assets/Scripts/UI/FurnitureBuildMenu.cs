@@ -19,7 +19,7 @@ public class FurnitureBuildMenu : MonoBehaviour {
             gameObject.name = "Button - Build " + s;
 
             gameObject.transform.GetComponentInChildren<Text>().text = "Build " + objectName;
-
+            gameObject.transform.GetComponentInChildren<Transform>().localScale = new Vector3(1, 1, 1);
             Button button = gameObject.GetComponent<Button>();
 
             button.onClick.AddListener(delegate { FindObjectOfType<BuildModeController>().SetMode_BuildFurniture(s); });

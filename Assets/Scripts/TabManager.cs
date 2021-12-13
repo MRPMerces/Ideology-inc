@@ -22,12 +22,12 @@ public class TabManager : MonoBehaviour
     GameObject upgrades;
 
     List<GameObject> tabs;
-
+    public GameObject CurrentTab;
     // Start is called before the first frame update
     void Start()
     {
         tabs = new List<GameObject> {staff, finance, followers, program, needs, grants, upgrades};
-
+        CurrentTab = tabs[0];
         SetActiveTab(staff);
     }
 
@@ -44,6 +44,7 @@ public class TabManager : MonoBehaviour
             //Debug.Log(tab.name + " " + tab.activeSelf);  
         }
         Debug.Log("current tab " + currentTab.name);
+        CurrentTab = currentTab;
         currentTab.SetActive(true);
     }
 }
