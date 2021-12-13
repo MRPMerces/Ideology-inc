@@ -1,4 +1,4 @@
-﻿public enum ModifierType { ConstructionCost , OperatingIncome , BuildTime, PopulationGrowth }
+﻿public enum ModifierType { ConstructionCost , OperatingIncome , WorkSpeed }
 public class Modifier {
     /// <summary>
     /// Constructor to create a new modifier.

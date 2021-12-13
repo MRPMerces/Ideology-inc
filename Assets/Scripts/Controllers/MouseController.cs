@@ -49,18 +49,7 @@ public class MouseController : MonoBehaviour {
                 break;
 
             case MouseMode.SELECT:
-                // Clean up old drag previews
-                cleanUpPreviews();
-
-                if (Input.GetMouseButtonDown(0)) {
-                    buildModeController.DoBuild(GetMouseOverTile());
-                    currentMode = MouseMode.NONE;
-                    break;
-                }
-
-                // show the generic dragging visuals
-                addPreview(World.world.GetTileAt(currFramePosition));
-
+                UpdateSelect();
                 break;
 
             case MouseMode.BUILD:
@@ -175,6 +164,40 @@ public class MouseController : MonoBehaviour {
         }
     }
 
+    void UpdateSelect() {
+        Tile currentTile = GetMouseOverTile();
+
+        // If we're over a UI element, then bail out from this.
+        if (EventSystem.current.IsPointerOverGameObject() || currentTile == null) {
+            return;
+        }
+
+        if (World.world.GetTileAt(currFramePosition) != World.world.GetTileAt(lastFramePosition)) {
+            // Clean up old previews.
+            cleanUpPreviews();
+        }
+
+        if (buildModeController.buildMode == BuildMode.FURNITURE) {
+            ShowFurnitureSpriteAtTile(buildModeController.buildModeObjectType, currentTile);
+        }
+
+        else {
+            // show the generic dragging visuals.
+            addPreview(GetMouseOverTile());
+        }
+
+        // Build furniture.
+        if (Input.GetMouseButtonDown(0)) {
+            buildModeController.DoBuild(currentTile);
+
+            currentMode = MouseMode.NONE;
+            cleanUpPreviews();
+
+            // Disable tile borders.
+            TileSpriteController.tileSpriteController.enableBorder(false);
+        }
+    }
+
     void cleanUpPreviews() {
         while (dragPreviewGameObjects.Count > 0) {
             SimplePool.Despawn(dragPreviewGameObjects[0]);
@@ -207,7 +230,6 @@ public class MouseController : MonoBehaviour {
     }
 
     void ShowFurnitureSpriteAtTile(string furnitureType, Tile tile) {
-
         GameObject gameobject = new GameObject();
         gameobject.transform.SetParent(transform, true);
 

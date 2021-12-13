@@ -173,7 +173,7 @@ public class FurnitureSpriteController : MonoBehaviour {
             return furnitureSprites[objectType + "_"];
         }
 
-        //Debug.LogError("GetSpriteForFurniture -- No sprites with name: " + objectType);
+        Debug.LogError("GetSpriteForFurniture -- No sprites with name: " + objectType);
         return TileSpriteController.tileSpriteController.errorSprite;
     }
 }

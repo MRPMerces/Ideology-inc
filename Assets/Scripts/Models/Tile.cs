@@ -240,12 +240,15 @@ public class Tile : IXmlSerializable {
     public Tile North() {
         return World.world.GetTileAt(x, y + 1);
     }
+
     public Tile South() {
         return World.world.GetTileAt(x, y - 1);
     }
+
     public Tile East() {
         return World.world.GetTileAt(x + 1, y);
     }
+
     public Tile West() {
         return World.world.GetTileAt(x - 1, y);
     }

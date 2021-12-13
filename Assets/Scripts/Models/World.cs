@@ -145,8 +145,8 @@ public class World : IXmlSerializable {
         furniturePrototypes["Door"].RegisterUpdateAction(FurnitureActions.Door_UpdateAction);
         furniturePrototypes["Door"].IsEnterable = FurnitureActions.Door_IsEnterable;
 
-        furniturePrototypes["Mining Drone Station"].jobSpotOffset = new Vector2(1, 0);
-        furniturePrototypes["Mining Drone Station"].RegisterUpdateAction(FurnitureActions.MiningDroneStation_UpdateAction);
+        furniturePrototypes["Steel Mill"].jobSpotOffset = new Vector2(1, 0);
+        furniturePrototypes["Steel Mill"].RegisterUpdateAction(FurnitureActions.SteelMill_UpdateAction);
 
 }
 

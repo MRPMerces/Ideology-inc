@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RoomSpriteController : MonoBehaviour {
 
     public Sprite sprite;
+    public Font font;
 
     public static RoomSpriteController roomSpriteController;
 
@@ -37,7 +38,7 @@ public class RoomSpriteController : MonoBehaviour {
 
                 SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
                 spriteRenderer.sprite = sprite;
-                spriteRenderer.sortingLayerName = "Tiles";
+                spriteRenderer.sortingLayerName = "Furniture";
 
                 roomOverlaySprites.Add(tile, gameObject);
 
@@ -80,7 +81,11 @@ public class RoomSpriteController : MonoBehaviour {
             GameObject gameObject = new GameObject(room.roomType.ToString());
             gameObject.transform.position = new Vector3(e - (e - w) / 2, n - (n - s) / 2);
             gameObject.transform.SetParent(transform, true);
-            gameObject.AddComponent<Text>().text = room.roomType.ToString();
+            gameObject.AddComponent<Canvas>();
+
+            Text text = gameObject.AddComponent<Text>();
+            text.text = room.roomType.ToString();
+            text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
 
             roomNames.Add(room, gameObject);
         }

@@ -93,8 +93,8 @@
 		<Name>Stockpile</Name>
 	</Furniture>
 
-	<Furniture objectType="Mining Drone Station">
-		<Name>Mining Drone Station</Name>
+	<Furniture objectType="Steel Mill">
+		<Name>Steel Mill</Name>
         <MovementCost>1</MovementCost>
         <Width>3</Width>
         <Height>3</Height>

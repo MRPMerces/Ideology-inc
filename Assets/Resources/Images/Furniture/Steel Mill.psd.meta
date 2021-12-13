@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 638f85d7544cce0469fdf27772b9e2ca
+guid: 386e239864af06346a97fc1b288b9a7e
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 21300000
-    second: Oxygen Generator
+    second: Steel Mill
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -82,13 +82,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Oxygen Generator
+      name: Steel Mill
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 128
-        height: 128
+        y: 320
+        width: 192
+        height: 192
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -96,7 +96,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4194ade462e96364d9dd33dc49ec9072
+      spriteID: 967ed1b63cf6320489c3195c7d404de8
       internalID: 21300000
       vertices: []
       indices: 
@@ -105,7 +105,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f4ebacc55d1504c4fb91c8ab7df778a0
     internalID: 0
     vertices: []
     indices: 

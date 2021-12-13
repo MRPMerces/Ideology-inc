@@ -97,6 +97,10 @@ public class BuildModeController : MonoBehaviour {
                 buildMode = BuildMode.NONE;
                 return;
 
+            case BuildMode.FURNITURE:
+                buildFurntiture(tile);
+                return;
+
             default:
                 return;
         }
@@ -119,32 +123,7 @@ public class BuildModeController : MonoBehaviour {
             case BuildMode.FURNITURE:
                 // Create the Furniture and assign it to the tile
                 foreach (Tile tile in tiles) {
-                    if (World.world.IsFurniturePlacementValid(buildModeObjectType, tile) && tile.pendingFurnitureJob == null) {
-                        // This tile position is valid for this furniture
-                        // Create a job for it to be build
-
-                        Job job;
-
-                        if (World.world.furnitureJobPrototypes.ContainsKey(buildModeObjectType)) {
-                            // Make a clone of the job prototype
-                            job = World.world.furnitureJobPrototypes[buildModeObjectType].Clone();
-                            // Assign the correct tile.
-                            job.tile = tile;
-                        }
-
-                        else {
-                            Debug.LogError("There is no furniture job prototype for '" + buildModeObjectType + "'");
-                            job = new Job(tile, buildModeObjectType, FurnitureActions.JobComplete_FurnitureBuilding, 0.1f, null);
-                        }
-
-                        job.furniturePrototype = World.world.furniturePrototypes[buildModeObjectType];
-
-                        tile.pendingFurnitureJob = job;
-                        job.RegisterJobStoppedCallback((theJob) => { theJob.tile.pendingFurnitureJob = null; });
-
-                        // Add the job to the queue
-                        World.world.jobQueue.Enqueue(job);
-                    }
+                    buildFurntiture(tile);
                 }
                 return;
 
@@ -164,6 +143,35 @@ public class BuildModeController : MonoBehaviour {
             default:
                 Debug.LogError("Unrecognized BuildMode" + buildMode.ToString());
                 return;
+        }
+    }
+
+    void buildFurntiture(Tile tile) {
+        if (World.world.IsFurniturePlacementValid(buildModeObjectType, tile) && tile.pendingFurnitureJob == null) {
+            // This tile position is valid for this furniture
+            // Create a job for it to be build
+
+            Job job;
+
+            if (World.world.furnitureJobPrototypes.ContainsKey(buildModeObjectType)) {
+                // Make a clone of the job prototype
+                job = World.world.furnitureJobPrototypes[buildModeObjectType].Clone();
+                // Assign the correct tile.
+                job.tile = tile;
+            }
+
+            else {
+                Debug.LogError("There is no furniture job prototype for '" + buildModeObjectType + "'");
+                job = new Job(tile, buildModeObjectType, FurnitureActions.JobComplete_FurnitureBuilding, 0.1f, null);
+            }
+
+            job.furniturePrototype = World.world.furniturePrototypes[buildModeObjectType];
+
+            tile.pendingFurnitureJob = job;
+            job.RegisterJobStoppedCallback((theJob) => { theJob.tile.pendingFurnitureJob = null; });
+
+            // Add the job to the queue
+            World.world.jobQueue.Enqueue(job);
         }
     }
 }

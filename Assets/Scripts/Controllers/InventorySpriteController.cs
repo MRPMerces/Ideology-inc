@@ -57,7 +57,7 @@ public class InventorySpriteController : MonoBehaviour {
 
         gameObject.name = inventory.objectType;
         gameObject.transform.position = new Vector3(inventory.tile.x, inventory.tile.y, 0);
-        gameObject.transform.SetParent(this.transform, true);
+        gameObject.transform.SetParent(transform, true);
 
         SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = inventorySprites[inventory.objectType];

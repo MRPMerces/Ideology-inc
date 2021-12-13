@@ -47,6 +47,9 @@ TagManager:
   - name: Border
     uniqueID: 3323641809
     locked: 0
+  - name: Rooms
+    uniqueID: 3500492415
+    locked: 0
   - name: Furniture
     uniqueID: 1892590203
     locked: 0
