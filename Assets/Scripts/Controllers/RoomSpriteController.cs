@@ -76,7 +76,6 @@ public class RoomSpriteController : MonoBehaviour {
         }
 
         if (!roomNames.ContainsKey(room)) {
-
             // Create a Room GameObject pair for the room, and display the roomtype.
             GameObject gameObject = new GameObject(room.roomType.ToString());
             gameObject.transform.position = new Vector3(e - (e - w) / 2, n - (n - s) / 2);

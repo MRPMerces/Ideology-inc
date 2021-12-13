@@ -9,7 +9,7 @@ using UnityEngine;
 public class World : IXmlSerializable {
 
     // A two-dimensional array to hold our tile data.
-    public Tile[,] tiles{ get; protected set; }
+    public Tile[,] tiles { get; protected set; }
     public List<Character> characters;
     public List<Furniture> furnitures;
     public InventoryManager inventoryManager;
@@ -62,7 +62,11 @@ public class World : IXmlSerializable {
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
                 tiles[x, y] = new Tile(x, y);
-                tiles[x, y].RegisterTileTypeChangedCallback(this.OnTileChanged);
+                tiles[x, y].RegisterTileTypeChangedCallback(OnTileChanged);
+
+                if (y < 4) {
+                    tiles[x, y].Type = TileType.ROAD;
+                }
             }
         }
 
@@ -75,6 +79,39 @@ public class World : IXmlSerializable {
         furnitures = new List<Furniture>();
         inventoryManager = new InventoryManager();
 
+        tiles[50, 50].Type = TileType.Floor;
+        tiles[50, 51].Type = TileType.Floor;
+        tiles[50, 52].Type = TileType.Floor;
+        tiles[50, 53].Type = TileType.Floor;
+        tiles[50, 54].Type = TileType.Floor;
+
+        tiles[51, 50].Type = TileType.Floor;
+        tiles[51, 51].Type = TileType.Floor;
+        tiles[51, 52].Type = TileType.Floor;
+        tiles[51, 53].Type = TileType.Floor;
+        tiles[51, 54].Type = TileType.Floor;
+
+        tiles[52, 50].Type = TileType.Floor;
+        tiles[52, 51].Type = TileType.Floor;
+        tiles[52, 52].Type = TileType.Floor;
+        tiles[52, 53].Type = TileType.Floor;
+        tiles[52, 54].Type = TileType.Floor;
+
+        tiles[53, 50].Type = TileType.Floor;
+        tiles[53, 51].Type = TileType.Floor;
+        tiles[53, 52].Type = TileType.Floor;
+        tiles[53, 53].Type = TileType.Floor;
+        tiles[53, 54].Type = TileType.Floor;
+
+        tiles[54, 50].Type = TileType.Floor;
+        tiles[54, 51].Type = TileType.Floor;
+        tiles[54, 52].Type = TileType.Floor;
+        tiles[54, 53].Type = TileType.Floor;
+        tiles[54, 54].Type = TileType.Floor;
+
+        Furniture startSteelMill = PlaceFurniture("Steel Mill", tiles[51, 51]);
+        Inventory inventory = new Inventory("Steel Plate", 50, 50);
+        inventoryManager.PlaceInventory(startSteelMill.GetSpawnSpotTile(), inventory);
     }
 
     public void Update(float deltaTime) {
@@ -148,7 +185,7 @@ public class World : IXmlSerializable {
         furniturePrototypes["Steel Mill"].jobSpotOffset = new Vector2(1, 0);
         furniturePrototypes["Steel Mill"].RegisterUpdateAction(FurnitureActions.SteelMill_UpdateAction);
 
-}
+    }
 
     public void SetupPathfindingExample() {
         Debug.Log("SetupPathfindingExample");

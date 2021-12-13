@@ -148,29 +148,25 @@ public class Furniture : IXmlSerializable {
     }
 
     static public Furniture PlaceInstance(Furniture furniture, Tile tile) {
-        if (furniture.funcPositionValidation(tile) == false) {
+        if (!furniture.funcPositionValidation(tile)) {
             Debug.LogError("PlaceInstance -- Position Validity Function returned FALSE.");
             return null;
         }
 
         // We know our placement destination is valid.
-        Furniture obj = furniture.Clone(); // Simplify??
+        Furniture obj = furniture.Clone(); /// Simplify??
         obj.tile = tile;
 
         // FIXME: This assumes we are 1x1!
         if (tile.PlaceFurniture(obj) == false) {
-            // For some reason, we weren't able to place our object in this tile.
-            // (Probably it was already occupied.)
+            // For some reason, we weren't able to place our object in this tile. (Probably it was already occupied.)
 
-            // Do NOT return our newly instantiated object.
-            // (It will be garbage collected.)
+            // Do NOT return our newly instantiated object. (It will be garbage collected.)
             return null;
         }
 
         if (obj.linksToNeighbour) {
-            // This type of furniture links itself to its neighbours,
-            // so we should inform our neighbours that they have a new
-            // buddy.  Just trigger their OnChangedCallback.
+            // This type of furniture links itself to its neighbours, so we should inform our neighbours that they have a new buddy. Just trigger their OnChangedCallback.
 
             foreach (Tile tile1 in tile.GetNeighbours()) {
                 if (tile1 != null && tile1.furniture != null && tile1.furniture.cbOnChanged != null && tile1.furniture.objectType == obj.objectType) {

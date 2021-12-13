@@ -8,7 +8,7 @@ using UnityEngine;
 // the terrain type. For us, we only need to differentiate between empty space
 // and floor (a.k.a. the station structure/scaffold). Walls/Doors/etc... will be
 // InstalledObjects sitting on top of the floor.
-public enum TileType { Empty, Floor };
+public enum TileType { Empty, Floor, ROAD };
 
 public enum ENTERABILITY { Yes, Never, Soon };
 

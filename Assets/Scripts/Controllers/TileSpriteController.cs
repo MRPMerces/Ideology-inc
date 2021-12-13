@@ -7,6 +7,7 @@ public class TileSpriteController : MonoBehaviour {
     // The only tile sprite we have right now, so this it a pretty simple way to handle it.
     public Sprite concrete_foundation;  // FIXME!
     public Sprite grass;  // FIXME!
+    public Sprite road;
 
     // Default sprite for everything.
     public Sprite errorSprite;
@@ -83,6 +84,10 @@ public class TileSpriteController : MonoBehaviour {
 
             case TileType.Floor:
                 gameObject.GetComponent<SpriteRenderer>().sprite = concrete_foundation;
+                break;
+
+            case TileType.ROAD:
+                gameObject.GetComponent<SpriteRenderer>().sprite = road;
                 break;
 
             default:
