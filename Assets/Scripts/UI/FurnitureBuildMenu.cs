@@ -14,15 +14,11 @@ public class FurnitureBuildMenu : MonoBehaviour {
             GameObject gameObject = Instantiate(buildFurnitureButtonPrefab);
             gameObject.transform.SetParent(transform);
 
-            string objectName = World.world.furniturePrototypes[s].Name;
-
             gameObject.name = "Button - Build " + s;
 
-            gameObject.transform.GetComponentInChildren<Text>().text = "Build " + objectName;
+            gameObject.transform.GetComponentInChildren<Text>().text = "Build " + World.world.furniturePrototypes[s].Name;
 
-            Button button = gameObject.GetComponent<Button>();
-
-            button.onClick.AddListener(delegate { FindObjectOfType<BuildModeController>().SetMode_BuildFurniture(s); });
+            gameObject.GetComponent<Button>().onClick.AddListener(delegate { FindObjectOfType<BuildModeController>().SetMode_BuildFurniture(s); });
         }
     }
 }

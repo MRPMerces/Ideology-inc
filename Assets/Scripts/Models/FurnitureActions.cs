@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 public static class FurnitureActions {
     // This file contains code which will likely be completely moved to
@@ -173,46 +174,11 @@ public static class FurnitureActions {
         furniture.AddJob(new Job(tile, null, SteelMill_JobComplete, 1f, null, true));
     }
 
-    public static void SteelMill_JobComplete(Job j) {
-        World.world.inventoryManager.PlaceInventory(j.furniture.GetSpawnSpotTile(), new Inventory("Steel Plate", 50, 1));
-        // Money.add_money(-price * ModifierController.modifierController.constructionCost.value);
-    }
-
-    public static void Table_UpdateAction(Furniture furniture, float deltaTime) {
-
-        Tile spawnSpot = furniture.GetSpawnSpotTile();
-
-        if (furniture.JobCount() > 0) {
-
-            // Check to see if the Metal Plate destination tile is full.
-            if (spawnSpot.inventory != null && spawnSpot.inventory.stackSize >= spawnSpot.inventory.maxStackSize) {
-                // We should stop this job, because it's impossible to make any more items.
-                furniture.CancelJobs();
-            }
-
-            return;
+    public static void SteelMill_JobComplete(Job job) {
+        if (FinancialController.financialController.canAffordConstructionCost(100)) {
+            Debug.Log("hei");
+            FinancialController.financialController.constructionCost(100);
+            World.world.inventoryManager.PlaceInventory(job.furniture.GetSpawnSpotTile(), new Inventory("Steel Plate", 50, 1));
         }
-
-        // If we get here, then we have no current job. Check to see if our destination is full.
-        if (spawnSpot.inventory != null && spawnSpot.inventory.stackSize >= spawnSpot.inventory.maxStackSize) {
-            // We are full! Don't make a job!
-            return;
-        }
-
-        // If we get here, we need to CREATE a new job.
-
-        Tile tile = furniture.GetJobSpotTile();
-
-        if (tile.inventory != null && (tile.inventory.stackSize >= tile.inventory.maxStackSize)) {
-            // Our drop spot is already full, so don't create a job.
-            return;
-        }
-
-        furniture.AddJob(new Job(tile, null, SteelMill_JobComplete, 1f, null, true));
-    }
-
-    public static void Table_JobComplete(Job j) {
-        World.world.inventoryManager.PlaceInventory(j.furniture.GetSpawnSpotTile(), new Inventory("Steel Plate", 50, 1));
-        // Money.add_money(-price * ModifierController.modifierController.constructionCost.value);
     }
 }

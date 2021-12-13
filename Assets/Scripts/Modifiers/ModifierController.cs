@@ -4,16 +4,16 @@ public class ModifierController : MonoBehaviour {
 
     public static ModifierController modifierController;
 
+    public Modifier constructionCost { get; protected set; }
+    public Modifier operatingIncome { get; protected set; }
+    public Modifier workSpeed { get; protected set; }
+
     private void OnEnable() {
         modifierController = this;
         constructionCost = new Modifier(ModifierType.ConstructionCost);
         operatingIncome = new Modifier(ModifierType.OperatingIncome);
         workSpeed = new Modifier(ModifierType.WorkSpeed);
     }
-
-    public Modifier constructionCost { get; protected set; }
-    public Modifier operatingIncome { get; protected set; }
-    public Modifier workSpeed { get; protected set; }
 
     void resetModifiers() {
         constructionCost.value = 1f;

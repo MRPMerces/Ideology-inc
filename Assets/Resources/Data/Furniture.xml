@@ -9,7 +9,7 @@
         <EnclosesRooms>true</EnclosesRooms>
 
         <BuildingJob jobTime="1">
-            <Inventory objectType="Steel Plate" amount="1" />
+            <Inventory objectType="Steel Plate" amount="5" />
         </BuildingJob>
 
         <DeconstructJob>
@@ -32,7 +32,7 @@
         </Params>
 
         <BuildingJob jobTime="1">
-            <Inventory objectType="Steel Plate" amount="1" />
+            <Inventory objectType="Steel Plate" amount="2" />
         </BuildingJob>
 
         <DeconstructJob>

@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
 
+public enum MouseMode { NONE, SELECT, BUILD }
+
 public class MouseController : MonoBehaviour {
 
     public GameObject dragObject;
@@ -24,8 +26,6 @@ public class MouseController : MonoBehaviour {
 
 
     bool isDragging = false;
-
-    enum MouseMode { NONE, SELECT, BUILD }
 
     MouseMode currentMode = MouseMode.NONE;
 
@@ -158,9 +158,6 @@ public class MouseController : MonoBehaviour {
 
             currentMode = MouseMode.NONE;
             cleanUpPreviews();
-
-            // Disable tile borders.
-            TileSpriteController.tileSpriteController.enableBorder(false);
         }
     }
 
@@ -192,9 +189,6 @@ public class MouseController : MonoBehaviour {
 
             currentMode = MouseMode.NONE;
             cleanUpPreviews();
-
-            // Disable tile borders.
-            TileSpriteController.tileSpriteController.enableBorder(false);
         }
     }
 
@@ -252,16 +246,8 @@ public class MouseController : MonoBehaviour {
         dragPreviewGameObjects.Add(gameobject);
     }
 
-    public void StartBuildMode() {
-        // Activate the tile borders.
-        TileSpriteController.tileSpriteController.enableBorder();
-        currentMode = MouseMode.BUILD;
-    }
-
-    public void StartSelectMode() {
-        // Activate the tile borders.
-        TileSpriteController.tileSpriteController.enableBorder();
-        currentMode = MouseMode.SELECT;
+    public void StartBuild(MouseMode mouseMode) {
+        currentMode = mouseMode;
     }
 }
 

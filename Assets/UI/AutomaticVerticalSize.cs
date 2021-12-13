@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [ExecuteInEditMode]
 public class AutomaticVerticalSize : MonoBehaviour {
@@ -19,10 +18,5 @@ public class AutomaticVerticalSize : MonoBehaviour {
 		Vector2 size = GetComponent<RectTransform>().sizeDelta;
 		size.y = transform.childCount * childHeight;
 		GetComponent<RectTransform>().sizeDelta = size;
-
-        for (int i = 0; i < transform.childCount; i++) {
-			transform.GetChild(i).transform.localScale = new Vector3(1, 1, 1);
-
-		}
 	}
 }

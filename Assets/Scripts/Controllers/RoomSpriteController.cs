@@ -5,13 +5,18 @@ using UnityEngine.UI;
 
 public class RoomSpriteController : MonoBehaviour {
 
-    public Sprite sprite;
-    public Font font;
-
     public static RoomSpriteController roomSpriteController;
+
+    public Sprite Bathroom;
+    public Sprite Bedroom;
+    public Sprite Office;
+
+    public Font font;
 
     Dictionary<Tile, GameObject> roomOverlaySprites;
     Dictionary<Room, GameObject> roomNames;
+
+    bool roomOverlayEnabled = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -35,9 +40,10 @@ public class RoomSpriteController : MonoBehaviour {
                 GameObject gameObject = new GameObject("Tile_" + tile.x + "_" + tile.y);
                 gameObject.transform.position = new Vector3(tile.x, tile.y, 0);
                 gameObject.transform.SetParent(transform, true);
+                gameObject.SetActive(roomOverlayEnabled);
 
                 SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-                spriteRenderer.sprite = sprite;
+                spriteRenderer.sprite = getSprite(room.roomType);
                 spriteRenderer.sortingLayerName = "Furniture";
 
                 roomOverlaySprites.Add(tile, gameObject);
@@ -48,6 +54,22 @@ public class RoomSpriteController : MonoBehaviour {
         }
 
         setText(room);
+    }
+
+    Sprite getSprite(RoomType roomType) {
+        switch (roomType) {
+            case RoomType.BATHROOM:
+                return Bathroom;
+
+            case RoomType.BEDROOM:
+                return Bedroom;
+
+            case RoomType.OFFICE:
+                return Office;
+
+            default:
+                return TileSpriteController.tileSpriteController.errorSprite;
+        }
     }
 
     void setText(Room room) {
@@ -91,6 +113,15 @@ public class RoomSpriteController : MonoBehaviour {
 
         else {
             roomNames[room].transform.position = new Vector3(e - (e - w) / 2, n - (n - s) / 2);
+        }
+    }
+
+    public void enableRoomOverlay(bool enable = true) {
+        if (roomOverlayEnabled != enable) {
+            roomOverlayEnabled = enable;
+            foreach (GameObject gameObject in roomOverlaySprites.Values) {
+                gameObject.SetActive(enable);
+            }
         }
     }
 }

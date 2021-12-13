@@ -25,35 +25,35 @@ public class TileSpriteController : MonoBehaviour {
         tileGameObjectMap = new Dictionary<Tile, GameObject>();
         tileBorderOverlays = new Dictionary<Tile, GameObject>();
 
-        // Create a GameObject for each of our tiles, so they show visually. (and redunt reduntantly)
+        // Create a GameObject for each of our tiles.
         foreach (Tile tile in World.world.tiles) {
 
-            // This creates a new GameObject and adds it to our scene.
+            // Create a new GameObject.
             GameObject gameObjectTile = new GameObject("Tile_" + tile.x + "_" + tile.y);
-            GameObject gameObjectBorder = new GameObject("Tile_" + tile.x + "_" + tile.y + "Border");
-
             gameObjectTile.transform.position = tile.toVector3();
-            gameObjectBorder.transform.position = tile.toVector3();
-
             gameObjectTile.transform.SetParent(transform, true);
-            gameObjectBorder.transform.SetParent(transform, true);
 
-            // Add a Sprite Renderer
-            // Add a default sprite for empty tiles.
-            gameObjectBorder.AddComponent<SpriteRenderer>().sortingLayerName = "Border";
-            gameObjectBorder.GetComponent<SpriteRenderer>().sprite = tileBorder;
-            gameObjectBorder.SetActive(false);
+            // Add a Sprite Renderer to the gameObjectTile.
+            gameObjectTile.AddComponent<SpriteRenderer>().sortingLayerName = "Tiles";
 
-            // Add a Sprite Renderer
-            // Add a default sprite for empty tiles.
-            SpriteRenderer spriteRenderer = gameObjectTile.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = grass;
-            spriteRenderer.sortingLayerName = "Tiles";
-
-            // Add our tile/GO pair to the dictionary.
+            // Add our Tile GameObject pair to the dictionary.
             tileGameObjectMap.Add(tile, gameObjectTile);
+
+            // Create a new GameObject.
+            GameObject gameObjectBorder = new GameObject("Tile_" + tile.x + "_" + tile.y + "_Border");
+            gameObjectBorder.transform.position = tile.toVector3();
+            gameObjectBorder.transform.SetParent(transform, true);
+            gameObjectBorder.SetActive(bordersEnabled);
+
+            // Add a Sprite Renderer to the gameObjectBorder.
+            SpriteRenderer tileBorderRenderer = gameObjectBorder.AddComponent<SpriteRenderer>();
+            tileBorderRenderer.sortingLayerName = "Border";
+            tileBorderRenderer.sprite = tileBorder;
+
+            // Add our Tile GameObject pair to the dictionary.
             tileBorderOverlays.Add(tile, gameObjectBorder);
 
+            // Call the callback so that 
             OnTileChanged(tile);
         }
 

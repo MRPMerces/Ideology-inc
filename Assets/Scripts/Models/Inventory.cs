@@ -48,6 +48,7 @@ public class Inventory {
     public int itemsToMaxStackSize() {
         return maxStackSize - stackSize;
     }
+
     public void RegisterChangedCallback(Action<Inventory> callback) {
         cbInventoryChanged += callback;
     }
