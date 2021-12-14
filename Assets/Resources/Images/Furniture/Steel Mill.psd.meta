@@ -4,7 +4,7 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 21300000
-    second: Mining Drone Station
+    second: Steel Mill
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -82,7 +82,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mining Drone Station
+      name: Steel Mill
       rect:
         serializedVersion: 2
         x: 0
@@ -105,7 +105,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f4ebacc55d1504c4fb91c8ab7df778a0
     internalID: 0
     vertices: []
     indices: 

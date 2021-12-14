@@ -102,7 +102,7 @@ public class Job {
             return;
         }
 
-        jobTime -= workTime;
+        jobTime -= workTime * ModifierController.modifierController.workSpeed.value;
 
         cbJobWorked?.Invoke(this);
 

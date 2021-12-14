@@ -5,12 +5,18 @@ using UnityEngine.UI;
 
 public class RoomSpriteController : MonoBehaviour {
 
-    public Sprite sprite;
-
     public static RoomSpriteController roomSpriteController;
+
+    public Sprite Bathroom;
+    public Sprite Bedroom;
+    public Sprite Office;
+
+    public Font font;
 
     Dictionary<Tile, GameObject> roomOverlaySprites;
     Dictionary<Room, GameObject> roomNames;
+
+    bool roomOverlayEnabled = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -34,10 +40,11 @@ public class RoomSpriteController : MonoBehaviour {
                 GameObject gameObject = new GameObject("Tile_" + tile.x + "_" + tile.y);
                 gameObject.transform.position = new Vector3(tile.x, tile.y, 0);
                 gameObject.transform.SetParent(transform, true);
+                gameObject.SetActive(roomOverlayEnabled);
 
                 SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-                spriteRenderer.sprite = sprite;
-                spriteRenderer.sortingLayerName = "Tiles";
+                spriteRenderer.sprite = getSprite(room.roomType);
+                spriteRenderer.sortingLayerName = "Furniture";
 
                 roomOverlaySprites.Add(tile, gameObject);
 
@@ -47,6 +54,22 @@ public class RoomSpriteController : MonoBehaviour {
         }
 
         setText(room);
+    }
+
+    Sprite getSprite(RoomType roomType) {
+        switch (roomType) {
+            case RoomType.BATHROOM:
+                return Bathroom;
+
+            case RoomType.BEDROOM:
+                return Bedroom;
+
+            case RoomType.OFFICE:
+                return Office;
+
+            default:
+                return TileSpriteController.tileSpriteController.errorSprite;
+        }
     }
 
     void setText(Room room) {
@@ -75,18 +98,30 @@ public class RoomSpriteController : MonoBehaviour {
         }
 
         if (!roomNames.ContainsKey(room)) {
-
             // Create a Room GameObject pair for the room, and display the roomtype.
             GameObject gameObject = new GameObject(room.roomType.ToString());
             gameObject.transform.position = new Vector3(e - (e - w) / 2, n - (n - s) / 2);
             gameObject.transform.SetParent(transform, true);
-            gameObject.AddComponent<Text>().text = room.roomType.ToString();
+            gameObject.AddComponent<Canvas>();
+
+            Text text = gameObject.AddComponent<Text>();
+            text.text = room.roomType.ToString();
+            text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
 
             roomNames.Add(room, gameObject);
         }
 
         else {
             roomNames[room].transform.position = new Vector3(e - (e - w) / 2, n - (n - s) / 2);
+        }
+    }
+
+    public void enableRoomOverlay(bool enable = true) {
+        if (roomOverlayEnabled != enable) {
+            roomOverlayEnabled = enable;
+            foreach (GameObject gameObject in roomOverlaySprites.Values) {
+                gameObject.SetActive(enable);
+            }
         }
     }
 }

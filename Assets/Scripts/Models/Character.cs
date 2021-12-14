@@ -5,6 +5,17 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 public class Character : IXmlSerializable {
+
+    public Character(Tile tile) {
+        currentTile = destinationTile = nextTile = tile;
+        happiness = 50;
+        tiredness = 5;
+    }
+
+    public float happiness { get; protected set; }
+
+    public float tiredness { get; protected set; }
+
     public float x {
         get {
             if (nextTile == null)
@@ -53,10 +64,6 @@ public class Character : IXmlSerializable {
 
     private Character() {
         // Use only for serialization
-    }
-
-    public Character(Tile tile) {
-        currentTile = destinationTile = nextTile = tile;
     }
 
     void GetNewJob() {
@@ -191,6 +198,7 @@ public class Character : IXmlSerializable {
             // going to countdown jobTime and potentially
             // call its "Job Complete" callback.
             myJob.DoWork(deltaTime);
+            tiredness += deltaTime / 5;
         }
 
         // Nothing left for us to do here, we mostly just need Update_DoMovement to
@@ -277,6 +285,8 @@ public class Character : IXmlSerializable {
 
         // Add that to overall percentage travelled.
         movementPercentage += percThisFrame;
+
+        tiredness += deltaTime / 10;
 
         if (movementPercentage >= 1) {
             // We have reached our destination

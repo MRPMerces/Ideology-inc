@@ -9,7 +9,7 @@
         <EnclosesRooms>true</EnclosesRooms>
 
         <BuildingJob jobTime="1">
-            <Inventory objectType="Steel Plate" amount="0" />
+            <Inventory objectType="Steel Plate" amount="5" />
         </BuildingJob>
 
         <DeconstructJob>
@@ -32,7 +32,7 @@
         </Params>
 
         <BuildingJob jobTime="1">
-            <Inventory objectType="Steel Plate" amount="0" />
+            <Inventory objectType="Steel Plate" amount="2" />
         </BuildingJob>
 
         <DeconstructJob>
@@ -54,7 +54,29 @@
 		<EnclosesRooms>false</EnclosesRooms>
 
 		<BuildingJob jobTime="1">
-			<Inventory objectType="Steel Plate" amount="0" />
+			<Inventory objectType="Steel Plate" amount="1" />
+		</BuildingJob>
+
+		<DeconstructJob>
+			<Inventory objectType="Steel Plate" amount="1" />
+		</DeconstructJob>
+
+		<IsEnterable>
+			// LUA Code?
+		</IsEnterable>
+
+	</Furniture>
+
+	<Furniture objectType="Chair">
+		<Name>Chair</Name>
+		<MovementCost>1</MovementCost>
+		<Width>1</Width>
+		<Height>1</Height>
+		<LinksToNeighbours>false</LinksToNeighbours>
+		<EnclosesRooms>false</EnclosesRooms>
+
+		<BuildingJob jobTime="1">
+			<Inventory objectType="Steel Plate" amount="1" />
 		</BuildingJob>
 
 		<DeconstructJob>
@@ -71,8 +93,8 @@
 		<Name>Stockpile</Name>
 	</Furniture>
 
-	<Furniture objectType="Mining Drone Station">
-		<Name>Mining Drone Station</Name>
+	<Furniture objectType="Steel Mill">
+		<Name>Steel Mill</Name>
         <MovementCost>1</MovementCost>
         <Width>3</Width>
         <Height>3</Height>

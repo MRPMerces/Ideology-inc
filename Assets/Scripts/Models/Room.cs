@@ -4,7 +4,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public enum RoomType { Bathroom, Bedroom, Office }
+public enum RoomType { BATHROOM, BEDROOM, OFFICE }
 public class Room : IXmlSerializable {
 
     public List<Tile> tiles { get; protected set; }

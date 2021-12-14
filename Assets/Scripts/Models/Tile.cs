@@ -8,7 +8,7 @@ using UnityEngine;
 // the terrain type. For us, we only need to differentiate between empty space
 // and floor (a.k.a. the station structure/scaffold). Walls/Doors/etc... will be
 // InstalledObjects sitting on top of the floor.
-public enum TileType { Empty, Floor };
+public enum TileType { Empty, Floor, ROAD };
 
 public enum ENTERABILITY { Yes, Never, Soon };
 
@@ -240,12 +240,15 @@ public class Tile : IXmlSerializable {
     public Tile North() {
         return World.world.GetTileAt(x, y + 1);
     }
+
     public Tile South() {
         return World.world.GetTileAt(x, y - 1);
     }
+
     public Tile East() {
         return World.world.GetTileAt(x + 1, y);
     }
+
     public Tile West() {
         return World.world.GetTileAt(x - 1, y);
     }

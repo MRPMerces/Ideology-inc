@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
 
+public enum MouseMode { NONE, SELECT, BUILD }
+
 public class MouseController : MonoBehaviour {
 
     public GameObject dragObject;
@@ -24,8 +26,6 @@ public class MouseController : MonoBehaviour {
 
 
     bool isDragging = false;
-
-    enum MouseMode { NONE, SELECT, BUILD }
 
     MouseMode currentMode = MouseMode.NONE;
 
@@ -49,18 +49,7 @@ public class MouseController : MonoBehaviour {
                 break;
 
             case MouseMode.SELECT:
-                // Clean up old drag previews
-                cleanUpPreviews();
-
-                if (Input.GetMouseButtonDown(0)) {
-                    buildModeController.DoBuild(GetMouseOverTile());
-                    currentMode = MouseMode.NONE;
-                    break;
-                }
-
-                // show the generic dragging visuals
-                addPreview(World.world.GetTileAt(currFramePosition));
-
+                UpdateSelect();
                 break;
 
             case MouseMode.BUILD:
@@ -141,12 +130,13 @@ public class MouseController : MonoBehaviour {
             end_y = start_y;
             start_y = tmp;
         }
-
+        List<Tile> tiles = new List<Tile>();
         // Display a preview of the drag area
         for (int x = start_x; x <= end_x; x++) {
             for (int y = start_y; y <= end_y; y++) {
                 Tile tile = World.world.GetTileAt(x, y);
                 if (tile != null) {
+                    tiles.Add(tile);
                     // Display the building hint on top of this tile position
 
                     if (buildModeController.buildMode == BuildMode.FURNITURE) {
@@ -162,22 +152,43 @@ public class MouseController : MonoBehaviour {
         }
 
         // End Drag
-        if (isDragging && Input.GetMouseButtonUp(0)) {
+        if (isDragging && Input.GetMouseButtonUp(0) && tiles.Count > 0) {
             isDragging = false;
-
-            List<Tile> tiles = new List<Tile>();
-
-            // Loop through all the tiles
-            for (int x = start_x; x <= end_x; x++) {
-                for (int y = start_y; y <= end_y; y++) {
-                    Tile tile = World.world.GetTileAt(x, y);
-
-                    if (tile != null) {
-                        tiles.Add(tile);
-                    }
-                }
-            }
             buildModeController.DoBuild(tiles);
+
+            currentMode = MouseMode.NONE;
+            cleanUpPreviews();
+        }
+    }
+
+    void UpdateSelect() {
+        Tile currentTile = GetMouseOverTile();
+
+        // If we're over a UI element, then bail out from this.
+        if (EventSystem.current.IsPointerOverGameObject() || currentTile == null) {
+            return;
+        }
+
+        if (World.world.GetTileAt(currFramePosition) != World.world.GetTileAt(lastFramePosition)) {
+            // Clean up old previews.
+            cleanUpPreviews();
+        }
+
+        if (buildModeController.buildMode == BuildMode.FURNITURE) {
+            ShowFurnitureSpriteAtTile(buildModeController.buildModeObjectType, currentTile);
+        }
+
+        else {
+            // show the generic dragging visuals.
+            addPreview(GetMouseOverTile());
+        }
+
+        // Build furniture.
+        if (Input.GetMouseButtonDown(0)) {
+            buildModeController.DoBuild(currentTile);
+
+            currentMode = MouseMode.NONE;
+            cleanUpPreviews();
         }
     }
 
@@ -213,7 +224,6 @@ public class MouseController : MonoBehaviour {
     }
 
     void ShowFurnitureSpriteAtTile(string furnitureType, Tile tile) {
-
         GameObject gameobject = new GameObject();
         gameobject.transform.SetParent(transform, true);
 
@@ -236,12 +246,8 @@ public class MouseController : MonoBehaviour {
         dragPreviewGameObjects.Add(gameobject);
     }
 
-    public void StartBuildMode() {
-        currentMode = MouseMode.BUILD;
-    }
-
-    public void StartSelectMode() {
-        currentMode = MouseMode.SELECT;
+    public void StartBuild(MouseMode mouseMode) {
+        currentMode = mouseMode;
     }
 }
 

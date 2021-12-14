@@ -4,21 +4,21 @@ public class ModifierController : MonoBehaviour {
 
     public static ModifierController modifierController;
 
+    public Modifier constructionCost { get; protected set; }
+    public Modifier operatingIncome { get; protected set; }
+    public Modifier workSpeed { get; protected set; }
+
     private void OnEnable() {
         modifierController = this;
         constructionCost = new Modifier(ModifierType.ConstructionCost);
         operatingIncome = new Modifier(ModifierType.OperatingIncome);
-        buildTime = new Modifier(ModifierType.BuildTime);
+        workSpeed = new Modifier(ModifierType.WorkSpeed);
     }
-
-    public Modifier constructionCost { get; protected set; }
-    public Modifier operatingIncome { get; protected set; }
-    public Modifier buildTime { get; protected set; }
 
     void resetModifiers() {
         constructionCost.value = 1f;
         operatingIncome.value = 1f;
-        buildTime.value = 1f;
+        workSpeed.value = 1f;
     }
 
     public void update_modifier(Modifier[] modifiers) {
@@ -44,10 +44,9 @@ public class ModifierController : MonoBehaviour {
                 operatingIncome.value += modifier.value;
                 break;
 
-            case ModifierType.BuildTime:
-                buildTime.value += modifier.value;
+            case ModifierType.WorkSpeed:
+                workSpeed.value += modifier.value;
 
-                /// update global builtimes?
                 break;
 
             default:

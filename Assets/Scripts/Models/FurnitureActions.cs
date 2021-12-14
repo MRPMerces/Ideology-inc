@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 public static class FurnitureActions {
     // This file contains code which will likely be completely moved to
@@ -140,7 +141,7 @@ public static class FurnitureActions {
         }
     }
 
-    public static void MiningDroneStation_UpdateAction(Furniture furniture, float deltaTime) {
+    public static void SteelMill_UpdateAction(Furniture furniture, float deltaTime) {
 
         Tile spawnSpot = furniture.GetSpawnSpotTile();
 
@@ -170,10 +171,14 @@ public static class FurnitureActions {
             return;
         }
 
-        furniture.AddJob(new Job(tile, null, MiningDroneStation_JobComplete, 1f, null, true));
+        furniture.AddJob(new Job(tile, null, SteelMill_JobComplete, 1f, null, true));
     }
 
-    public static void MiningDroneStation_JobComplete(Job j) {
-        World.world.inventoryManager.PlaceInventory(j.furniture.GetSpawnSpotTile(), new Inventory("Steel Plate", 50, 20));
+    public static void SteelMill_JobComplete(Job job) {
+        if (FinancialController.financialController.canAffordConstructionCost(100)) {
+            Debug.Log("hei");
+            FinancialController.financialController.constructionCost(100);
+            World.world.inventoryManager.PlaceInventory(job.furniture.GetSpawnSpotTile(), new Inventory("Steel Plate", 50, 1));
+        }
     }
 }
