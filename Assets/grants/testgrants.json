@@ -1,0 +1,1 @@
+{"grants":[{"id":1,"name":"grow","reward":100,"dependency":[0],"requirements":[{"displaytext":"Get 10 followers","value":10,"property":"followers","modifyer":"<"}]}]}

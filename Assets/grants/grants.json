@@ -1,0 +1,71 @@
+{
+    "grants": [
+        {
+            "id": 1,
+            "name": "grow",
+            "reward": 100,
+            "dependency": [],
+            "requirements": [
+                {
+                    "displaytext": "Get 10 followers",
+                    "value": 10,
+                    "property": "followers",
+                    "modifyer": "<"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "first paycheck",
+            "reward": 200,
+            "dependency": [],
+            "requirements": [
+                {
+                    "displaytext": "Have 1000 in your bankaccount",
+                    "value": 1000,
+                    "property": "money",
+                    "modifyer": "<"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Getting serious",
+            "reward": 400,
+            "dependency": [
+                1
+            ],
+            "requirements": [
+                {
+                    "displaytext": "Build office",
+                    "value": 1,
+                    "property": "office",
+                    "modifyer": "<"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "grow bigger",
+            "reward": 500,
+            "dependency": [
+                1,
+                2
+            ],
+            "requirements": [
+                {
+                    "displaytext": "Get 50 followers",
+                    "value": 50,
+                    "property": "followers",
+                    "modifyer": "<"
+                },
+                {
+                    "displaytext": "Have 2000 in your bankaccount",
+                    "value": 2000,
+                    "property": "money",
+                    "modifyer": "<"
+                }
+            ]
+        }
+    ]
+}
