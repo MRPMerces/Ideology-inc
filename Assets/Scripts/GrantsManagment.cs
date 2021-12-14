@@ -1,47 +1,39 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
-
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 public class GrantsManagment : MonoBehaviour
 {
-    public static class JsonHelper
-    {
-        public static T[] FromJson<T>(string json)
-        {
-            Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
-            return wrapper.Items;
-        }
-
-        public static string ToJson<T>(T[] array)
-        {
-            Wrapper<T> wrapper = new Wrapper<T>();
-            wrapper.Items = array;
-            return JsonUtility.ToJson(wrapper);
-        }
-
-        public static string ToJson<T>(T[] array, bool prettyPrint)
-        {
-            Wrapper<T> wrapper = new Wrapper<T>();
-            wrapper.Items = array;
-            return JsonUtility.ToJson(wrapper, prettyPrint);
-        }
-
-        [System.Serializable]
-        private class Wrapper<T>
-        {
-            public T[] Items;
-        }
-    }
+    private Grants grants;
+    [SerializeField]
+    private GameObject grantTemplate;
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("GrantsManager start");
-        test();
+        WriteTest();
+        ReadTest();
+        Read();
+        OnEnable();
     }
 
-    void test()
+    void OnEnable()
+    {
+        for (int i = 0; i < grants.grants.Count; i++)
+        {
+            GameObject grant = Instantiate(grantTemplate) as GameObject;
+            grant.SetActive(true);
+
+            grant.GetComponent<GrantObject>().SetContent(grants.grants[i]);
+
+        }
+    }
+
+    void WriteTest()
     {
         Grant grant = new Grant();
         grant.id = 1;
@@ -58,11 +50,29 @@ public class GrantsManagment : MonoBehaviour
         grant.requirements = new List<Requirement>();
         grant.requirements.Add(req);
 
-        Grant[] grants = new Grant[] { grant };
+        Grants grants = new Grants();
+        grants.grants = new List<Grant> { grant };
         string json = JsonUtility.ToJson(grants);
-        File.WriteAllText(Application.dataPath + "/textfiles/grants/testgrants2.json", json);
+        File.WriteAllText(Application.dataPath + "/grants/testgrants.json", json);
     }
 
+    void ReadTest()
+    {
+        string json = File.ReadAllText(Application.dataPath + "/grants/testgrants.json");
+        Grants grants = JsonUtility.FromJson<Grants>(json);
+        Grant grant = grants.grants[0];
+        Assert.AreEqual("grow", grant.name);
+        Requirement req = grant.requirements[0];
+        Assert.AreEqual("Get 10 followers", req.displaytext);
+    }
+
+    void Read()
+    {
+        string json = File.ReadAllText(Application.dataPath + "/grants/grants.json");
+        grants = JsonUtility.FromJson<Grants>(json);
+    }
+
+    [Serializable]
     public class Requirement
     {
         public string displaytext;
@@ -71,6 +81,7 @@ public class GrantsManagment : MonoBehaviour
         public string modifyer;
     }
 
+    [Serializable]
     public class Grant
     {
         public int id;
@@ -80,4 +91,18 @@ public class GrantsManagment : MonoBehaviour
         public List<Requirement> requirements;
     }
 
+    [Serializable]
+    public class Grants
+    {
+        public List<Grant> grants;
+    }
+
+    public enum Status
+    {
+        Unlocked,
+        Accepted,
+        Locked,
+        Completed
+
+    }
 }
