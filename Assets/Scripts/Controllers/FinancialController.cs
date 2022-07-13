@@ -20,7 +20,7 @@ public class FinancialController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         financialController = this;
-        actualMoney = 100f;
+        actualMoney = 10000f;
     }
 
     void add_money(int amount) {
